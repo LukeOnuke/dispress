@@ -1,9 +1,6 @@
-# Fabric Example Mod
+# Dispress
+The nice looking discord rpc mod for fabric folks.
 
-## Setup
+**Requires fabric api**
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+//TODO : README
