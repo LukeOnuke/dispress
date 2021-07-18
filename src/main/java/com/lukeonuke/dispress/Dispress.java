@@ -3,9 +3,11 @@ package com.lukeonuke.dispress;
 import com.lukeonuke.dispress.discord.DiscordUtil;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.client.network.MultiplayerServerListPinger;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.realms.dto.PlayerInfo;
 import net.minecraft.server.PlayerManager;
@@ -42,8 +44,18 @@ public class Dispress implements ModInitializer {
 				Objects.requireNonNull(client.world);
 				DiscordUtil.setPresence("Singleplayer", "In game", "In world " + client.world.getDimension().toString(), true);
 			}else{
-				Objects.requireNonNull(client.getServer());
-				DiscordUtil.setPresence("Multiplayer", "In game ( " + client.getServer().getCurrentPlayerCount() + "/" + client.getServer().getCurrentPlayerCount() +" )", "In world : " + client.world.getDimension().toString(), true);
+				Dispress.LOGGER.info("Current server is [" + client.getCurrentServerEntry().address + "]");
+				ServerListing serverListing = new ServerListing();
+				String IP = client.getCurrentServerEntry().address;
+				DiscordRichPresence.Builder richPresenceBuilder = new DiscordRichPresence.Builder("Multiplayer").setDetails("In game");
+
+				if(serverListing.hasIconFor(IP)){
+					richPresenceBuilder.setBigImage(serverListing.getIcon(IP), serverListing.getIcon(IP));
+				}else{
+					richPresenceBuilder.setBigImage("minecraft", "Multiplayer server");
+				}
+
+				DiscordRPC.discordUpdatePresence(richPresenceBuilder.build());
 			}
 		});
 
