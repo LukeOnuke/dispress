@@ -18,6 +18,6 @@ public class TitleScreenMixin {
 	@Inject(at = @At("HEAD"), method = "init()V")
 	private void init(CallbackInfo info) {
 		Dispress.LOGGER.info("On main menu.");
-		DiscordUtil.setPresence("At main menu", "Menu", "Not in session", true);
+		DiscordUtil.setPresence("At main menu", "In menus", "Not in session", true);
 	}
 }

@@ -16,6 +16,10 @@ public class ServerListing {
         return instance;
     }
 
+    private ServerListing() {
+
+    }
+
     private void getServers(){
         servers.put("beocraft.net", "beocraft");
         servers.put("hypixel.net", "hypixel");
@@ -33,7 +37,7 @@ public class ServerListing {
 
     public String getIcon(String ip){
         for (Map.Entry<String, String> entry : servers.entrySet()) {
-            if (entry.getKey().endsWith(ip)) {
+            if (ip.endsWith(entry.getKey())) {
                 return entry.getValue();
             }
         }

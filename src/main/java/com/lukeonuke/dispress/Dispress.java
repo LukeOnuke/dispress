@@ -21,9 +21,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 public class Dispress implements ModInitializer {
 	public final static Logger LOGGER = LoggerFactory.getLogger(Dispress.class);
+	private Timer timer;
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -37,30 +40,14 @@ public class Dispress implements ModInitializer {
 		DiscordRPC.discordInitialize("866283581738319933", handlers, true);
 
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-
 			LOGGER.info("Joined game " + handler.getWorld().toString() + " ip " + handler.getConnection().getAddress().toString());
-			if(handler.getConnection().getAddress().toString().contains("local")){
-				//Single-player
-				Objects.requireNonNull(client.world);
-				DiscordUtil.setPresence("Singleplayer", "In game", "In world " + client.world.getDimension().toString(), true);
-			}else{
-				Dispress.LOGGER.info("Current server is [" + client.getCurrentServerEntry().address + "]");
-				ServerListing serverListing = new ServerListing();
-				String IP = client.getCurrentServerEntry().address;
-				DiscordRichPresence.Builder richPresenceBuilder = new DiscordRichPresence.Builder("Multiplayer").setDetails("In game");
-
-				if(serverListing.hasIconFor(IP)){
-					richPresenceBuilder.setBigImage(serverListing.getIcon(IP), serverListing.getIcon(IP));
-				}else{
-					richPresenceBuilder.setBigImage("minecraft", "Multiplayer server");
-				}
-
-				DiscordRPC.discordUpdatePresence(richPresenceBuilder.build());
-			}
+			timer = new Timer();
+			timer.schedule(new MultiplayerPresence(handler, client, sender), 5000L);
 		});
 
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
 			LOGGER.info("Left game");
+			timer.cancel();
 		});
 
 		Runtime.getRuntime().addShutdownHook(new Thread(DiscordRPC::discordShutdown));
