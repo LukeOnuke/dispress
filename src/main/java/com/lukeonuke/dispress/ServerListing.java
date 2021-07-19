@@ -23,6 +23,7 @@ public class ServerListing {
     private void getServers(){
         servers.put("beocraft.net", "beocraft");
         servers.put("hypixel.net", "hypixel");
+        servers.put("samifying.com", "samifying");
     }
 
     public boolean hasIconFor(String ip){

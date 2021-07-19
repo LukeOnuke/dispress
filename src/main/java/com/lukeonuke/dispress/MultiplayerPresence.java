@@ -7,21 +7,18 @@ import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.util.ChatMessages;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.TimerTask;
 
 public class MultiplayerPresence extends TimerTask {
-    private ClientPlayNetworkHandler handler;
-    private MinecraftClient client;
-    private PacketSender sender;
+    private final ClientPlayNetworkHandler handler;
+    private final MinecraftClient client;
+    private final PacketSender sender;
 
     public MultiplayerPresence(ClientPlayNetworkHandler handler, MinecraftClient client, PacketSender sender) {
         this.handler = handler;
@@ -48,12 +45,12 @@ public class MultiplayerPresence extends TimerTask {
             InetSocketAddress isa = (InetSocketAddress) handler.getConnection().getAddress();
 
             ServerPing ping = new ServerPing(isa);
-            StatusResponse response = null;
+            StatusResponse response;
             try {
                 response = ping.fetchData();
 
                 richPresenceBuilder.setDetails(String.format("In game (%d / %d)", response.getPlayers().getOnline(), response.getPlayers().getMax()));
-                richPresenceBuilder.setBigImage("minecraft", response.getDescription().getText().replaceAll("/\\u00A7[0-9a-fk-or]/ig", ""));
+
 
                 System.out.println(response.getPlayers().getOnline());
             } catch (IOException e) {
@@ -62,7 +59,9 @@ public class MultiplayerPresence extends TimerTask {
 
 
             if(serverListing.hasIconFor(IP)){
-                richPresenceBuilder.setSmallImage(serverListing.getIcon(IP), serverListing.getIcon(IP));
+                richPresenceBuilder.setBigImage(serverListing.getIcon(IP), serverListing.getIcon(IP).toUpperCase(Locale.ROOT));
+            }else{
+                richPresenceBuilder.setBigImage("minecraft", "Multiplayer server");
             }
 
             DiscordRPC.discordUpdatePresence(richPresenceBuilder.build());
