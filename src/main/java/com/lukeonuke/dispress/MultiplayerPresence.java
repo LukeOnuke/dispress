@@ -28,6 +28,7 @@ public class MultiplayerPresence extends TimerTask {
 
     @Override
     public void run() {
+        Dispress.LOGGER.info("Refreshing RP");
         if(handler.getConnection().getAddress().toString().contains("local")){
             //Single-player
             Objects.requireNonNull(client.world);
@@ -50,9 +51,6 @@ public class MultiplayerPresence extends TimerTask {
                 response = ping.fetchData();
 
                 richPresenceBuilder.setDetails(String.format("In game (%d / %d)", response.getPlayers().getOnline(), response.getPlayers().getMax()));
-
-
-                System.out.println(response.getPlayers().getOnline());
             } catch (IOException e) {
                 e.printStackTrace();
             }
