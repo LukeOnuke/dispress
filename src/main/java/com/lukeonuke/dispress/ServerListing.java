@@ -22,7 +22,7 @@ public class ServerListing {
 
     private void getServers(){
         servers.put("beocraft.net", "beocraft");
-        servers.put("80", "beocraft"); //This one just for me
+        servers.put("180", "beocraft"); //This one just for me
         servers.put("hypixel.net", "hypixel");
         servers.put("samifying.com", "samifying");
     }
