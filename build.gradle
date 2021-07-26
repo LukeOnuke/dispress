@@ -30,6 +30,9 @@ dependencies {
 
     include(implementation('com.github.Vatuu:discord-rpc:1.6.2'))
     include(implementation('com.github.Pequla:ServerPing:v1.0'))
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-client
+    include(implementation ('org.eclipse.jetty:jetty-client:11.0.6'))
+
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
 }
