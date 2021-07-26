@@ -32,14 +32,12 @@ import java.util.concurrent.TimeoutException;
 public class Dispress implements ModInitializer {
 	public final static Logger LOGGER = LoggerFactory.getLogger(Dispress.class);
 	private Timer timer;
-	private final DispressVersion currentVersion = new DispressVersion("2.0.0", false);
+	private final DispressVersion currentVersion = new DispressVersion("2.0.0", true);
 	private DispressVersion latestVersion = null;
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		//Living dangerously arent we captain.
 
 		LOGGER.info("Registered on fabric loader.");
 
@@ -61,7 +59,7 @@ public class Dispress implements ModInitializer {
 
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
 			if(!isLatest()){
-				MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("§b[dispress]§r there is a newer version §a" + latestVersion.getVersion() + "§r, while yours is §4" + currentVersion.getVersion() + "§r."), Util.NIL_UUID);
+				MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("§b[dispress]§r There is a newer version §a" + latestVersion.getVersion() + "§r, while yours is §4" + currentVersion.getVersion() + "§r."), Util.NIL_UUID);
 			}
 			if(!currentVersion.isFullRelease()){
 				MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("§b[dispress]§r §lYou are running a non production ready version."), Util.NIL_UUID);
@@ -98,7 +96,7 @@ public class Dispress implements ModInitializer {
 				LOGGER.info(rawResp);
 				JsonObject response = gson.fromJson(rawResp, JsonObject.class);
 
-				latestVersion = new DispressVersion(response.get("tag_name").getAsString(), response.get("prerelease").getAsBoolean());
+				latestVersion = new DispressVersion(response.get("tag_name").getAsString(), !response.get("prerelease").getAsBoolean());
 			} catch (InterruptedException | ExecutionException | TimeoutException e) {
 				e.printStackTrace();
 			}

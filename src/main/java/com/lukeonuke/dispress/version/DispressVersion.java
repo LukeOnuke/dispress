@@ -1,5 +1,7 @@
 package com.lukeonuke.dispress.version;
 
+import com.lukeonuke.dispress.Dispress;
+
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,12 +19,13 @@ public class DispressVersion{
     }
 
     public int getVersionAsInt(){
-        AtomicInteger intVersion = new AtomicInteger();
-        Arrays.stream(version.split("\\.")).forEach((subversion) -> {
-            intVersion.addAndGet(Integer.parseInt(subversion));
-            intVersion.updateAndGet(v -> v * 10);
-        });
-        return intVersion.get();
+        int intVersion = 0;
+        for (String subversion : version.split("\\.")) {
+            intVersion += Integer.parseInt(subversion);
+            intVersion *= 10;
+        }
+        Dispress.LOGGER.warn(this + " : " + intVersion);
+        return intVersion;
     }
 
 
