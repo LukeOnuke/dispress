@@ -2,6 +2,8 @@ package com.lukeonuke.dispress;
 
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.Timer;
 
+@Environment(EnvType.CLIENT)
 public class Dispress implements ModInitializer {
 	public final static Logger LOGGER = LoggerFactory.getLogger(Dispress.class);
 	private Timer timer;
