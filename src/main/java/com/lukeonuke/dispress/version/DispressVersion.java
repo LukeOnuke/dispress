@@ -34,7 +34,7 @@ public class DispressVersion{
      * @return If the caller version is greater than the other version
      */
     public boolean isGreaterThan(DispressVersion other){
-        return this.getVersionAsInt() > other.getVersionAsInt();
+        return this.getVersionAsInt() >= other.getVersionAsInt();
     }
 
     public boolean isFullRelease() {
