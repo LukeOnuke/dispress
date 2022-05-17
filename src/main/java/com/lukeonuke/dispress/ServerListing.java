@@ -9,7 +9,7 @@ public class ServerListing {
     private static ServerListing instance = null;
 
     public static ServerListing getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new ServerListing();
             instance.getServers();
         }
@@ -20,24 +20,24 @@ public class ServerListing {
 
     }
 
-    private void getServers(){
+    private void getServers() {
         servers.put("beocraft.net", "beocraft");
         servers.put("180", "beocraft"); //This one just for me
         servers.put("hypixel.net", "hypixel");
         servers.put("samifying.com", "samifying");
     }
 
-    public boolean hasIconFor(String ip){
+    public boolean hasIconFor(String ip) {
         AtomicBoolean hasIconFor = new AtomicBoolean(false);
         servers.keySet().forEach((key) -> {
-            if(ip.endsWith(key)){
+            if (ip.endsWith(key)) {
                 hasIconFor.set(true);
             }
         });
         return hasIconFor.get();
     }
 
-    public String getIcon(String ip){
+    public String getIcon(String ip) {
         for (Map.Entry<String, String> entry : servers.entrySet()) {
             if (ip.endsWith(entry.getKey())) {
                 return entry.getValue();

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MultiplayerScreen.class)
 public class MultiplayerScreenMixin {
     @Inject(at = @At("HEAD"), method = "init()V")
-    private void init(CallbackInfo info){
+    private void init(CallbackInfo info) {
         DiscordUtil.setPresence("Browsing servers", "Im menus", "Minecraft", false);
     }
 }
