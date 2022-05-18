@@ -29,12 +29,12 @@ public class MultiplayerPresence extends TimerTask {
     @Override
     public void run() {
         Dispress.LOGGER.info("Refreshing RP");
-        if(handler.getConnection().getAddress().toString().contains("local")){
+        if (handler.getConnection().getAddress().toString().contains("local")) {
             //Single-player
             Objects.requireNonNull(client.world);
 
             DiscordUtil.setPresence("Singleplayer", "In game", "In world " + client.world.getDimension().toString(), true);
-        }else{
+        } else {
             Objects.requireNonNull(client.getCurrentServerEntry());
 
             Dispress.LOGGER.info("Current server is [" + client.getCurrentServerEntry().address + "]");
@@ -56,9 +56,9 @@ public class MultiplayerPresence extends TimerTask {
             }
 
 
-            if(serverListing.hasIconFor(IP)){
+            if (serverListing.hasIconFor(IP)) {
                 richPresenceBuilder.setBigImage(serverListing.getIcon(IP), serverListing.getIcon(IP).toUpperCase(Locale.ROOT));
-            }else{
+            } else {
                 richPresenceBuilder.setBigImage("minecraft", "Multiplayer server");
             }
 
