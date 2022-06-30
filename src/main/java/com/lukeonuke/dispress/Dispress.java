@@ -27,7 +27,7 @@ import java.util.concurrent.TimeoutException;
 public class Dispress implements ModInitializer {
     public final static Logger LOGGER = LoggerFactory.getLogger(Dispress.class);
     private Timer timer;
-    private final DispressVersion currentVersion = new DispressVersion("2.1.0", true);
+    private final DispressVersion currentVersion = new DispressVersion("2.3.0", true);
     private DispressVersion latestVersion = null;
 
     @Override
