@@ -28,8 +28,7 @@ public class MultiplayerPresence extends TimerTask {
 
     @Override
     public void run() {
-        Dispress.LOGGER.info("Refreshing RP");
-        if (handler.getConnection().getAddress().toString().contains("local")) {
+        if(handler.getConnection().getAddress().toString().contains("local")){
             //Single-player
             Objects.requireNonNull(client.world);
 
@@ -37,7 +36,6 @@ public class MultiplayerPresence extends TimerTask {
         } else {
             Objects.requireNonNull(client.getCurrentServerEntry());
 
-            Dispress.LOGGER.info("Current server is [" + client.getCurrentServerEntry().address + "]");
             ServerListing serverListing = ServerListing.getInstance();
             String IP = client.getCurrentServerEntry().address;
             DiscordRichPresence.Builder richPresenceBuilder = new DiscordRichPresence.Builder("Multiplayer").setDetails("In game").setBigImage("minecraft", "Multiplayer server");

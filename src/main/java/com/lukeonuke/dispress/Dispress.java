@@ -10,8 +10,9 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.MessageType;
-import net.minecraft.text.LiteralText;
+import net.minecraft.network.message.MessageType;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.Util;
 import org.eclipse.jetty.client.HttpClient;
 import org.slf4j.Logger;
@@ -53,10 +54,11 @@ public class Dispress implements ModInitializer {
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (!isLatest()) {
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("§b[dispress]§r There is a newer version §a" + latestVersion.getVersion() + "§r, while yours is §4" + currentVersion.getVersion() + "§r."), Util.NIL_UUID);
+
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(MutableText.of(new LiteralTextContent("§b[dispress]§r There is a newer version §a" + latestVersion.getVersion() + "§r, while yours is §4" + currentVersion.getVersion() + "§r.")));
             }
             if (!currentVersion.isFullRelease()) {
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("§b[dispress]§r §lYou are running a non production ready version."), Util.NIL_UUID);
+                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(MutableText.of(new LiteralTextContent("§b[dispress]§r §lYou are running a non production ready version.")));
             }
 
             LOGGER.info("Joined game " + handler.getWorld().toString() + " ip " + handler.getConnection().getAddress().toString());
@@ -102,4 +104,5 @@ public class Dispress implements ModInitializer {
 
         return true;
     }
+
 }
